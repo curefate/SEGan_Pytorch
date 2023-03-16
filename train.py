@@ -120,7 +120,7 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
         real_img = real_img.to(device)
 
         # ------------------------------------------
-        # 训练D
+        # 优化D
         # 关闭G的反馈 打开D的
         requires_grad(generator, False)
         requires_grad(discriminator, True)
@@ -156,7 +156,6 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
             r_t_stat = ada_augment.r_t_stat
 
         # ------------------------------------------
-        # 优化D
         # 每d_reg_every次执行一次正则化，lazy regularization
         d_regularize = i % args.d_reg_every == 0
         if d_regularize:
