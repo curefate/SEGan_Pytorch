@@ -6,12 +6,13 @@ from torch import nn
 class EigenSpace(nn.Module):
     def __init__(self, res, channel, dim):
         super(EigenSpace, self).__init__()
-        self.U = nn.Parameter(torch.randn(res, res, channel, dim))
+        self.U = nn.Parameter(torch.randn(channel, res, res, dim))
         self.L = nn.Parameter(torch.randn(dim))
-        self.mu = nn.Parameter(torch.randn(res, res, channel))
+        self.mu = nn.Parameter(torch.randn(channel, res, res))
+        self.factor = 1.
 
     def forward(self, style):
-        temp = self.U[None, :] * (self.L[None, :] * style)[:, None, None, None, :]
+        temp = self.U[None, :] * (self.L[None, :] * style * self.factor)[:, None, None, None, :]
         h = torch.sum(temp, dim=-1) + self.mu[None, :]
         return h
 
@@ -19,12 +20,13 @@ class EigenSpace(nn.Module):
 class EigenSpace_2style(nn.Module):
     def __init__(self, res, channel, dim):
         super(EigenSpace_2style, self).__init__()
-        self.U = nn.Parameter(torch.randn(res, res, channel, dim))
+        self.U = nn.Parameter(torch.randn(channel, res, res, dim))
         self.L = nn.Parameter(torch.randn(dim))
         self.mu = nn.Parameter(torch.randn(dim))
+        self.factor = 1.
 
     def forward(self, style):
-        temp = (self.L[None, :] * style)[:, None, None, None, :]
+        temp = (self.L[None, :] * style * self.factor)[:, None, None, None, :]
         temp = self.U[None, :] * temp
         h = torch.sum(temp, dim=[1, 2, 3]) + self.mu
         return h
@@ -34,9 +36,10 @@ class EigenSpace_onlyL(nn.Module):
     def __init__(self, dim):
         super(EigenSpace_onlyL, self).__init__()
         self.L = nn.Parameter(torch.randn(dim))
+        self.factor = 1.
 
     def forward(self, style):
-        out = style * self.L
+        out = style * self.L * self.factor
         return out
 
 
