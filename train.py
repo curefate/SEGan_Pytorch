@@ -306,7 +306,7 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
                         os.makedirs(sample_save_path)
                     utils.save_image(
                         sample,
-                        sample_save_path + "{str(i).zfill(6)}.png",
+                        sample_save_path + f"{str(i).zfill(6)}.png",
                         nrow=int(args.n_sample ** 0.5),
                         normalize=True,
                         range=(-1, 1),
