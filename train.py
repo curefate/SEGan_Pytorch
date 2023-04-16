@@ -105,9 +105,11 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
 
     # ------------------------------------------
     # save log
-    log_path = "./logs/mode" + str(args.mode) + "/"
+    log_save_path = "./logs/mode" + str(args.mode) + "/"
+    if not os.path.exists(log_save_path):
+        os.mkdir(log_save_path)
     if args.log:
-        logs = SummaryWriter(log_path)
+        logs = SummaryWriter(log_save_path)
 
     # ------------------------------------------
     # 正式开始训练
@@ -302,6 +304,8 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
                     sample = g_ema(sample_z)
                     logs.add_images('sample', sample, i)
                     sample_save_path = "sample/mode" + str(args.mode) + "/"
+                    if not os.path.exists(sample_save_path):
+                        os.mkdir(sample_save_path)
                     utils.save_image(
                         sample,
                         sample_save_path + "{str(i).zfill(6)}.png",
@@ -311,6 +315,8 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
                     )
             if i % 10000 == 0:
                 ckpt_save_path = "checkpoints/mode" + str(args.mode) + "/"
+                if not os.path.exists(ckpt_save_path):
+                    os.mkdir(ckpt_save_path)
                 torch.save(
                     {
                         "g": g_module.state_dict(),
