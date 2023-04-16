@@ -202,7 +202,7 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
         if g_regularize:
             path_batch_size = max(1, args.batch // args.path_batch_shrink)
             noise = make_noise(args.batch, args.latent_dim, device)
-            fake_img, latents = generator(noise, return_latents=True)
+            fake_img, latents = generator(noise, return_styles=True)
 
             path_loss, mean_path_length, path_lengths = g_path_regularize(
                 fake_img, latents, mean_path_length
