@@ -303,7 +303,7 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
                     logs.add_images('sample', sample, i)
                     sample_save_path = "sample/mode" + str(args.mode) + "/"
                     if not os.path.exists(sample_save_path):
-                        os.mkdir(sample_save_path)
+                        os.makedirs(sample_save_path)
                     utils.save_image(
                         sample,
                         sample_save_path + "{str(i).zfill(6)}.png",
@@ -314,7 +314,7 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
             if i % 10000 == 0:
                 ckpt_save_path = "checkpoints/mode" + str(args.mode) + "/"
                 if not os.path.exists(ckpt_save_path):
-                    os.mkdir(ckpt_save_path)
+                    os.makedirs(ckpt_save_path)
                 torch.save(
                     {
                         "g": g_module.state_dict(),
