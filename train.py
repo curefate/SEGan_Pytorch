@@ -106,8 +106,6 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
     # ------------------------------------------
     # save log
     log_save_path = "./logs/mode" + str(args.mode) + "/"
-    if not os.path.exists(log_save_path):
-        os.mkdir(log_save_path)
     if args.log:
         logs = SummaryWriter(log_save_path)
 
