@@ -12,6 +12,7 @@ from tqdm import tqdm
 from trainning.dataset import DatasetReader
 from trainning.loss import d_logistic_loss, d_r1_loss, g_nonsaturating_loss, g_path_regularize
 from model import Generator, Discriminator
+from model_SEG import Generator_Mode1, Generator_Mode2, Generator_Mode3
 from trainning.non_leaking import augment, AdaptiveAugment
 
 from trainning.distributed import (
@@ -104,8 +105,9 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
 
     # ------------------------------------------
     # save log
+    log_path = "./logs/mode" + str(args.mode) + "/"
     if args.log:
-        logs = SummaryWriter('./logs')
+        logs = SummaryWriter(log_path)
 
     # ------------------------------------------
     # 正式开始训练
@@ -299,14 +301,16 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
                     g_ema.eval()
                     sample = g_ema(sample_z)
                     logs.add_images('sample', sample, i)
+                    sample_save_path = "sample/mode" + str(args.mode) + "/"
                     utils.save_image(
                         sample,
-                        f"sample/{str(i).zfill(6)}.png",
+                        sample_save_path + "{str(i).zfill(6)}.png",
                         nrow=int(args.n_sample ** 0.5),
                         normalize=True,
                         range=(-1, 1),
                     )
             if i % 10000 == 0:
+                ckpt_save_path = "checkpoints/mode" + str(args.mode) + "/"
                 torch.save(
                     {
                         "g": g_module.state_dict(),
@@ -317,7 +321,7 @@ def train(args, loader, generator, discriminator, g_ema, g_optim, d_optim, devic
                         "args": args,
                         "ada_aug_p": ada_aug_p,
                     },
-                    f"checkpoint/{str(i).zfill(6)}.pt",
+                    ckpt_save_path + f"{str(i).zfill(6)}.pt",
                 )
 
 
@@ -397,12 +401,22 @@ if __name__ == '__main__':
     parser.add_argument(
         "--log", type=bool, default=True, help="Whether to save the log",
     )
+    parser.add_argument(
+        "--mode", type=int, default=0, help="Generator mode"
+    )
     args = parser.parse_args()
     # </editor-fold>
 
     # ---------------------------------------------
     # set models
-    generator = Generator(args.resolution, args.latent_dim).to(device)
+    if args.mode == 0:
+        generator = Generator(args.resolution, args.latent_dim).to(device)
+    elif args.mode == 1:
+        generator = Generator_Mode1(args.resolution, args.latent_dim).to(device)
+    elif args.mode == 2:
+        generator = Generator_Mode2(args.resolution, args.latent_dim).to(device)
+    elif args.mode == 3:
+        generator = Generator_Mode3(args.resolution, args.latent_dim).to(device)
     discriminator = Discriminator(args.resolution).to(device)
     g_ema = Generator(args.resolution, args.latent_dim).to(device)
     g_ema.eval()
