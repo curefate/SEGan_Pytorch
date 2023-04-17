@@ -12,7 +12,8 @@ class EigenSpace(nn.Module):
         self.factor = 1.
 
     def forward(self, style):
-        temp = self.U[None, :] * (self.L[None, :] * style * self.factor)[:, None, None, None, :]
+        temp = (self.L[None, :] * style * self.factor)[:, None, None, None, :]
+        temp = self.U[None, :] * temp
         h = torch.sum(temp, dim=-1) + self.mu[None, :]
         return h
 
