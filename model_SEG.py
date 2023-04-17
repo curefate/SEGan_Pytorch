@@ -132,7 +132,6 @@ class Generator_Mode1(nn.Module):
             sub_factor = []
             for i in range(self.Synthesis.style_num):
                 sub_factor.append(1.)
-        print(sub_factor)
         styles = self.Mapping(latents)
         img = self.Synthesis(styles, sub_factor)
         if return_styles:
