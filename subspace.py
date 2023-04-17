@@ -7,8 +7,9 @@ class EigenSpace(nn.Module):
     def __init__(self, res, channel, dim):
         super(EigenSpace, self).__init__()
         self.U = nn.Parameter(torch.randn(channel, res, res, dim))
-        self.L = nn.Parameter(torch.randn(dim))
-        self.mu = nn.Parameter(torch.randn(channel, res, res))
+        nn.init.orthogonal_(self.U)
+        self.L = nn.Parameter(torch.ones(dim))
+        self.mu = nn.Parameter(torch.zeros(channel, res, res))
         self.factor = 1.
 
     def forward(self, style):
@@ -22,8 +23,9 @@ class EigenSpace_2style(nn.Module):
     def __init__(self, res, channel, dim):
         super(EigenSpace_2style, self).__init__()
         self.U = nn.Parameter(torch.randn(channel, res, res, dim))
-        self.L = nn.Parameter(torch.randn(dim))
-        self.mu = nn.Parameter(torch.randn(dim))
+        nn.init.orthogonal_(self.U)
+        self.L = nn.Parameter(torch.ones(dim))
+        self.mu = nn.Parameter(torch.zeros(dim))
         self.factor = 1.
 
     def forward(self, style):
@@ -36,7 +38,7 @@ class EigenSpace_2style(nn.Module):
 class EigenSpace_onlyL(nn.Module):
     def __init__(self, dim):
         super(EigenSpace_onlyL, self).__init__()
-        self.L = nn.Parameter(torch.randn(dim))
+        self.L = nn.Parameter(torch.ones(dim))
         self.factor = 1.
 
     def forward(self, style):
