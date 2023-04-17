@@ -72,7 +72,7 @@ class SynthesisBlock_Mode1(nn.Module):
 
 class SynthesisNetwork_Mode1(nn.Module):
     def __init__(self, resolution, style_dim,
-                 channel_base=32768, channel_max=64):
+                 channel_base=32768, channel_max=128):
         super(SynthesisNetwork_Mode1, self).__init__()
         self.resolution = resolution
         self.style_dim = style_dim
@@ -144,7 +144,7 @@ class Generator_Mode1(nn.Module):
 # <editor-fold desc = "2style(Mode2)">
 class SynthesisNetwork_Mode2(nn.Module):
     def __init__(self, resolution, style_dim,
-                 channel_base=32768, channel_max=64):
+                 channel_base=32768, channel_max=128):
         super(SynthesisNetwork_Mode2, self).__init__()
         self.resolution = resolution
         self.style_dim = style_dim
