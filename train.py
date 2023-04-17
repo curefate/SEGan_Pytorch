@@ -415,14 +415,17 @@ if __name__ == '__main__':
     # set models
     if args.mode == 0:
         generator = Generator(args.resolution, args.latent_dim).to(device)
+        g_ema = Generator(args.resolution, args.latent_dim).to(device)
     elif args.mode == 1:
         generator = Generator_Mode1(args.resolution, args.latent_dim).to(device)
+        g_ema = Generator_Mode1(args.resolution, args.latent_dim).to(device)
     elif args.mode == 2:
         generator = Generator_Mode2(args.resolution, args.latent_dim).to(device)
+        g_ema = Generator_Mode2(args.resolution, args.latent_dim).to(device)
     elif args.mode == 3:
         generator = Generator_Mode3(args.resolution, args.latent_dim).to(device)
+        g_ema = Generator_Mode3(args.resolution, args.latent_dim).to(device)
     discriminator = Discriminator(args.resolution).to(device)
-    g_ema = Generator(args.resolution, args.latent_dim).to(device)
     g_ema.eval()
     accumulate(g_ema, generator, 0)
 
