@@ -102,7 +102,7 @@ class SynthesisNetwork_Mode1(nn.Module):
         for block in self.blocks:
             # block_style.append(styles.narrow(1, style_idx, block.conv_num + block.torgb_num).view(-1, self.style_dim))
             block_style.append(styles.narrow(1, style_idx, block.conv_num + block.torgb_num))
-            block_factor.append(sub_factor[style_idx:block.conv_num + block.torgb_num])
+            block_factor.append(sub_factor[style_idx:style_idx + block.conv_num + block.torgb_num])
             style_idx += block.conv_num
 
         input = self.const(styles)
@@ -311,7 +311,7 @@ class SynthesisNetwork_Mode2(nn.Module):
         for block in self.blocks:
             # block_style.append(styles.narrow(1, style_idx, block.conv_num + block.torgb_num).view(-1, self.style_dim))
             block_style.append(styles.narrow(1, style_idx, block.conv_num + block.torgb_num))
-            block_factor.append(sub_factor[style_idx:block.conv_num + block.torgb_num])
+            block_factor.append(sub_factor[style_idx:style_idx + block.conv_num + block.torgb_num])
             style_idx += block.conv_num
 
         input = self.const(styles)
@@ -474,7 +474,7 @@ class SynthesisNetwork_Mode3(nn.Module):
         for block in self.blocks:
             # block_style.append(styles.narrow(1, style_idx, block.conv_num + block.torgb_num).view(-1, self.style_dim))
             block_style.append(styles.narrow(1, style_idx, block.conv_num + block.torgb_num))
-            block_factor.append(sub_factor[style_idx:block.conv_num + block.torgb_num])
+            block_factor.append(sub_factor[style_idx:style_idx + block.conv_num + block.torgb_num])
             style_idx += block.conv_num
 
         input = self.const(styles)
