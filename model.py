@@ -323,7 +323,7 @@ class SynthesisBlock(nn.Module):
 
 class SynthesisNetwork(nn.Module):
     def __init__(self, resolution, style_dim,
-                 channel_base=32768, channel_max=512):
+                 channel_base=32768, channel_max=128):
         super(SynthesisNetwork, self).__init__()
         self.resolution = resolution
         self.style_dim = style_dim
