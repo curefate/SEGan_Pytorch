@@ -17,10 +17,14 @@ pic
 ### StyleGAN
 things about z space
 ### LinearSubSpace
+***
 ## Run
+***
 ## Model
 put the best here, others in discusstion
+***
 ## Dataset
+***
 ## Discussion
 ### Baseline&OtherDesign
 ### Result
@@ -29,3 +33,5 @@ put the best here, others in discusstion
 #### Decoupling
 #### Semantic Control
 ### Limitation
+***
+## Others
