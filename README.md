@@ -25,9 +25,11 @@ The idea of ​​using linear subspace comes from [EigenGAN](https://openaccess
 Refer to this [note](https://colab.research.google.com/drive/1Zil4-l8Lvz9cYKpsVG_0IMatErMcUi_L?usp=sharing).
 ***
 ## Model
-put the best here, others in discusstion
+Directly adding a linear subspace in each block and add the output to the feature map as in the original GAN ​​does not fully apply to the case of StyleGAN2. This would make the network too complex, and more importantly we want to modify semantic attributes by modifying $W$ space instead of $Z$ space (sampling noise). The following figure shows model structure whitch have a best performance. The linear subspace is placed before the modulation module of each layer and processes $w$ vectors.
+pic
 ***
 ## Dataset
+The dataset can be found [here](https://drive.google.com/file/d/1uun17wO53E0gRUouAizs7kV4bUOO-6yy/view?usp=sharing), It's a very small subset of the danbooru dataset.
 ***
 ## Discussion
 ### Baseline&OtherDesign
